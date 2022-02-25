@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('Clientes', function (Blueprint $table) {
@@ -21,7 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->bigInteger('telefone');
             $table->charset = 'utf8';
-            $table->collation = 'utf8_unicode_ci';  
+            $table->collation = 'utf8_unicode_ci';
         });
     }
 
