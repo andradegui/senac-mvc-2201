@@ -22,4 +22,6 @@ class Clientes extends Model
     public function compras(){
         return $this->hasMany(Vendas::class, 'cliente_id');
     }
+
+
 }
