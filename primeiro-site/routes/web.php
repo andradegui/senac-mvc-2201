@@ -16,3 +16,12 @@ Route::get('/avisos', function () {
                                                     ['id' => 3, 'aviso' => 'Quem num gosta di mim que vai caçá sua turmis!.']
                                     ]]);
 });
+
+Route::get('/pi', function () {
+    return view('index', ['nome'=> 'Projeto PI 3º Semestre',
+                                    'mostrar'=>true,
+                                    'avisos' => [   ['id' => 1, 'aviso' => 'E-Commerce de roupas e brinquedos de criança usados?'],
+                                                    ['id' => 2, 'aviso' => 'E-commerce de tênis/roupas raras?'],
+                                                    ['id' => 3, 'aviso' => 'Se vira ai man, penseeee']
+                                    ]]);
+});

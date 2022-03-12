@@ -1,14 +1,15 @@
-@extends('layouts.externo')
-@section('title', 'Minha primeira view')
-@section('sidebar')
+@extends('projeto-pi.menu')
+@section('title', 'MVC & Laravel')
+@section('navbar')
 @parent
 <hr>
 @endsection
+
 @section('content')
 
 @if($mostrar)
 <div class="alert alert-danger" role="alert">
-    ATENÇÃO: Não se esqueça de sextar
+    ATENÇÃO: Não se esqueça do PI
 </div>
 @else
 <div></div>
