@@ -42,3 +42,8 @@ Route::prefix('clientes')->group(function() {                   //  a diferença
                                                                 //  algumas páginas da aplicação vai ser pedir login e senha
     Route::get('listar', [App\Http\Controllers\ClientesController::class, 'listar'])->middleware('auth');
 });
+
+Route::group(['middleware' => ['auth']], function(){
+    Route::resource('/users', App\Http\Controllers\UserController::class);
+    Route::resource('/roles', App\Http\Controllers\UserController::class);
+});
