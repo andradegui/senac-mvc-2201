@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
+use Illuminate\Suponents\Array;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -16,11 +16,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Resquest $request)
+    public function index(Request $request)
     {
         $data = User::orderBy('id', 'DESC')->paginate(5);
 
-        return view('users.index', compact('data'))->with('i', ($request->input('page', 1) -1) * 5);
+        return view('users.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -28,7 +28,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()//mostra o form p ser preecnhido, só atualiza no frontend os dados
+    public function create()
     {
         $roles = Role::pluck('name', 'name')->all();
 
@@ -41,22 +41,22 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)//só atualiza no backend os dados
+    public function store(Request $request)
     {
-        $this->validate($request, [ 'name'=> 'required',
-                                    'email' => 'required|email|unique:users,email',
-                                    'password' => 'required|same:confirm-password',
-                                    'roles' => 'required']);
+        $this->validate($request, ['name' => 'required', 'email' => 
+        'required|email|unique:users,email',
+        'password'=>'required|same:confirm-password',
+         'roles'=>'required']);
 
         $input = $request->all();
 
-        $input['password'] = Hash::make($input['password']);//criptografando a senha
+        $input['password'] = Hash::make($input['password']);
 
-        $user = User::create($input);//cria novo user
+        $user = User::create($input);
 
-        $user->assignRole($request->input('roles'));//atribuindo um perfil pra esse usuario
+        $user->assigRole($request->input('role'));
 
-        return redirect()->route('users.index')->with('sucess', 'Usuario criado com sucesso');
+        return redirect()->route('users.index')->with('success','Usuário criado com sucesso');
     }
 
     /**
@@ -67,9 +67,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+       $user = User::find($id);
 
-        return view('users.show', compact('users'));
+       return view('users.show', compact('user'));
     }
 
     /**
@@ -78,14 +78,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)//só atualiza no front
+    public function edit($id)
     {
-        $user = User::find($id);//primeiro procura o user
+        $user = User::find($id);
 
         $roles = Role::pluck('name', 'name')->all();
 
-        $userRole = $user->role->pluck('name', 'name')->all();
-
+        $userRole = $user->roles->pluck('name', 'name')->all();
 
         return view('users.edit', compact('user', 'roles', 'userRole'));
     }
@@ -97,32 +96,27 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)//atualiza no backend os dados
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [ 'name'=> 'required',
-                                    'email' => 'required|email|unique:users,email',
-                                    'password' => 'required|same:confirm-password',
-                                    'roles' => 'required']);
+        $this->validate($request, ['name' => 'required', 'email' => 
+        'required|email|unique:users,email',
+        'password'=>'required|same:confirm-password',
+         'roles'=>'required']);
 
+         if(!empty($input['password'])){
+             $input['password'] = Hash::make($input['password']);
+         }else{
+            $input = Array::except($input, array('password'));
+         }
 
-        $input = $request->all();
+         $user = User::find($id);
 
+         $user->update($input);
 
-        if(!empty($input['password'])){
-            $input['password'] = Hash::make($input['password']);
-        }
-        else{
-            $input = Arr::except($input, array('password'));
-        }
+         BD::table('model_has_roles')->where('model_id', $id)->delete();
+         $user->assigRole($request->input('role'));
 
-        $user = User::find($id);
-
-        $user->update($input);
-
-
-        DB::table('model_has_roles')->where('model_id', $id)->delete();
-
-        return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso');
+         return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso');
 
     }
 
@@ -132,10 +126,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)//método delete
+    public function destroy($id)
     {
         User::find($id)->delete();
 
-        return redirect()->route('users.index')->with('sucess', 'Usuário removido com sucesso');
+        return redirect()->route('users.index')->with('success', 'Usário removido com sucesso');
     }
 }
