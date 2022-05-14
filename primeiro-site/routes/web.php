@@ -37,13 +37,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-//prefix?? prefixo de um grupo de rotas
-Route::prefix('clientes')->group(function() {                   //  a diferença é que colocando aqui apenas
-                                                                //  algumas páginas da aplicação vai ser pedir login e senha
-    Route::get('listar', [App\Http\Controllers\ClientesController::class, 'listar'])->middleware('auth');
-});
+
 
 Route::group(['middleware' => ['auth']], function(){
     Route::resource('/users', App\Http\Controllers\UserController::class);
     Route::resource('/roles', App\Http\Controllers\RoleController::class);
+    Route::resource('/clientes', App\Http\Controllers\ClientesController::class);
 });
