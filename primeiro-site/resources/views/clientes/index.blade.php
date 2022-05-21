@@ -8,7 +8,9 @@
             <h2>Clientes</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-success" href="{{ route('clientes.create') }}"> + Novo usuário</a>
+            @can('cliente-create')
+            <a class="btn btn-success" href="{{ route('clientes.create') }}"> + Novo Cliente</a>
+            @endcan
         </div>
     </div>
 </div>
@@ -46,13 +48,17 @@
 
     <td>
        <a class="btn btn-info" href="{{ route('clientes.show',$cliente->id) }}">Mostrar</a>
+       @can('clientes-edit')
        <a class="btn btn-primary" href="{{ route('clientes.edit',$cliente->id) }}">Editar</a>
+       @endcan
 
+       @can('cliente-delete')
         {!! Form::open(['method' => 'DELETE','route' => ['clientes.destroy', $cliente->id],'style'=>'display:inline']) !!}
 
             {!! Form::submit('Apagar', ['class' => 'btn btn-danger']) !!}
 
         {!! Form::close() !!}
+        @endcan
 
     </td>
   </tr>
