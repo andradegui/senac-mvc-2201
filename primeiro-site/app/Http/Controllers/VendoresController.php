@@ -115,4 +115,23 @@ class VendoresController extends Controller
 
         return json_encode($ret);
     }
+
+    public function checkVendedor(int $id){
+
+        //Simulando BD
+        $vendedores = [ 1 => 'Gui',
+                        2 => 'Rafael',
+                        3 => 'Julia'];
+
+        return array_key_exists($id, $vendedores);
+    }
+
+    public function getVendedor(int $id):string
+    {
+        $vendedores = [ 1 => 'Gui',
+                        2 => 'Rafael',
+                        3 => 'Julia'];
+
+        return $vendedores[$id];
+    }
 }
