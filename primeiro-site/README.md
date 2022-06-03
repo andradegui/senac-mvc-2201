@@ -16,4 +16,9 @@
 
 - para rodar testes => vendor/bin/phpunit
 
-
+- para testes automatizado: 
+- composer require --dev laravel/dusk
+- php artisan dusk:install
+- php artisan dusk:chrome-drive --all
+- php artisan dusk:make "NomeArquivo"
+- php artisan dusk

@@ -23,11 +23,11 @@ class VendedoresControllerTest extends TestCase
     public function testCheckVendedor()
     {
         $this->assertTrue($this->vendedores->checkVendedor(1));
-        $this->assertFalse($this->vendedores->checkVendedor(0));
+        $this->assertFalse($this->vendedores->checkVendedor(20));
     }
 
     public function testGetVendedor()
     {
-        $this->assertEquals('Gui', $this->vendedores->getVendedor(1));
+        $this->assertEquals('Rafael', $this->vendedores->getVendedor(2));
     }
 }
